@@ -2,6 +2,8 @@ package com.github.zly2006.carpetslsaddition.mixin.player;
 
 import com.github.zly2006.carpetslsaddition.SLSCarpetSettings;
 import com.github.zly2006.carpetslsaddition.util.ShulkerBoxItemUtil;
+import me.fallenbreath.conditionalmixin.api.annotation.Condition;
+import me.fallenbreath.conditionalmixin.api.annotation.Restriction;
 import net.minecraft.entity.player.PlayerAbilities;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -12,6 +14,9 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
+@Restriction(
+        conflict = @Condition("pca")
+)
 @Mixin(PlayerInventory.class)
 public abstract class MixinPlayerInventory implements Inventory, Nameable {
     @Redirect(method = "insertStack(ILnet/minecraft/item/ItemStack;)Z", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;getAbilities()Lnet/minecraft/entity/player/PlayerAbilities;"))
@@ -33,8 +38,7 @@ public abstract class MixinPlayerInventory implements Inventory, Nameable {
     }
 
     // 修改潜影盒拾取逻辑，使从地上捡起潜影盒时仍可堆叠
-    @Redirect(method = "canStackAddMore",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;isStackable()Z", ordinal = 0))
+    @Redirect(method = "canStackAddMore", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;isStackable()Z", ordinal = 0))
     private boolean canStackAddMoreIsStackable(ItemStack itemStack) {
         return ShulkerBoxItemUtil.isStackable(itemStack);
     }

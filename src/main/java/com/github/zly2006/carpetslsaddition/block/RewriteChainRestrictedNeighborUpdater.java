@@ -2,6 +2,7 @@ package com.github.zly2006.carpetslsaddition.block;
 
 import com.github.zly2006.carpetslsaddition.SLSCarpetSettings;
 import com.mojang.logging.LogUtils;
+import io.netty.util.internal.logging.Slf4JLoggerFactory;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
@@ -10,13 +11,14 @@ import net.minecraft.world.World;
 import net.minecraft.world.block.NeighborUpdater;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
 
 public class RewriteChainRestrictedNeighborUpdater implements NeighborUpdater {
-    private static final Logger LOGGER = LogUtils.getLogger();
+    private static final Logger LOGGER = LoggerFactory.getLogger("Minecraft");
     private final World world;
     private final int maxChainDepth;
     private final ArrayDeque<Entry> queue = new ArrayDeque<>();
@@ -49,12 +51,14 @@ public class RewriteChainRestrictedNeighborUpdater implements NeighborUpdater {
     }
 
     private void enqueue(BlockPos pos, Entry entry) {
-        int maxSize = SLSCarpetSettings.maxUpdateQueueSize;
-        if (maxSize > 0) {
-            needUpdate = this.pending.size() + 1 <= maxSize;
+        if (!needUpdate) {
+            return;
         }
-        else {
-            needUpdate = true;
+
+        int maxSize = SLSCarpetSettings.maxUpdateQueueSize;
+
+        if (maxSize > 0) {
+            needUpdate = this.pending.size() + this.queue.size() + 1 <= maxSize;
         }
 
         boolean notEmpty = this.depth > 0;
@@ -92,17 +96,17 @@ public class RewriteChainRestrictedNeighborUpdater implements NeighborUpdater {
                 Entry entry = this.queue.peek();
                 assert entry != null;
 
-                if (needUpdate) {
-                    while(this.pending.isEmpty()) {
+                while(this.pending.isEmpty()) {
+                    if (needUpdate) {
                         if (!entry.update(this.world)) {
                             this.queue.pop();
                             break;
                         }
                     }
-                }
-                else {
-                    entry.update(this.world);
-                    throw new OutOfMemoryError("Create by Carpet-SLS-Addition");
+                    else {
+                        entry.update(this.world);
+                        throw new OutOfMemoryError("Create by Carpet-SLS-Addition");
+                    }
                 }
             }
         }
@@ -118,6 +122,7 @@ public class RewriteChainRestrictedNeighborUpdater implements NeighborUpdater {
             this.queue.clear();
             this.pending.clear();
             this.depth = 0;
+            needUpdate = true;
         }
     }
 

@@ -17,8 +17,6 @@ import org.spongepowered.asm.mixin.Shadow;
 public abstract class MixinServerPlayerEntity extends PlayerEntity  {
     @Shadow
     public ServerPlayNetworkHandler networkHandler;
-
-
     private int sneakTimes = 0;
     private long lastSneakTime = 0;
 
