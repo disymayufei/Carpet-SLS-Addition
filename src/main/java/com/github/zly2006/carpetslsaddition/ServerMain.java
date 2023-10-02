@@ -23,6 +23,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 public class ServerMain implements ModInitializer, CarpetExtension {
@@ -39,8 +40,6 @@ public class ServerMain implements ModInitializer, CarpetExtension {
     public static MinecraftServer server;
 
     public static final boolean tisCarpetLoaded = FabricLoader.getInstance().isModLoaded("carpet-tis-addition");
-    public static final String ITEM_NAME = "item_name";
-    public static final String OBSIDIAN_PICKAXE = "obsidian_pickaxe";
 
     @Override
     public void onInitialize() {
@@ -64,23 +63,24 @@ public class ServerMain implements ModInitializer, CarpetExtension {
         try {
             try (InputStream stream = ServerMain.class.getResourceAsStream("/assets/slsaddition/lang/%s.json".formatted(lang))) {
                 assert stream != null;
-                jsonFile = new String(stream.readAllBytes());
+                jsonFile = new String(stream.readAllBytes(), StandardCharsets.UTF_8);
             }
         } catch (IOException | NullPointerException ignored) {
             try {
                 try (InputStream stream = ServerMain.class.getResourceAsStream("/assets/slsaddition/lang/%s.json".formatted("en_us"))) {
                     assert stream != null;
-                    jsonFile = new String(stream.readAllBytes());
+                    jsonFile = new String(stream.readAllBytes(), StandardCharsets.UTF_8);
                 }
             } catch (IOException | NullPointerException e) {
                 return translation;
             }
         }
         GSON.fromJson(jsonFile, JsonObject.class).entrySet().stream()
-                .filter(entry -> entry.getKey().startsWith("carpet."))
                 .filter(entry -> entry.getValue().isJsonPrimitive())
                 .map(entry -> Map.entry(entry.getKey(), entry.getValue().getAsString()))
-                .forEach(entry -> translation.put(entry.getKey(), entry.getValue()));
+                .forEach(entry -> {
+                    translation.put(entry.getKey(), entry.getValue());
+                });
         return translation;
     }
 

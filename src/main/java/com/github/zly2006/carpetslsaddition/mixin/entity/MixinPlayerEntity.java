@@ -12,6 +12,7 @@ import net.minecraft.text.Text;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
@@ -26,15 +27,8 @@ public abstract class MixinPlayerEntity implements PlayerAccess {
 
     @Shadow public abstract Text getName();
 
+    @Unique
     private Text displayName = null;
-
-
-    @Override
-    public boolean holdingObsidianPickaxe() {
-        ItemStack itemStack = getEquippedStack(EquipmentSlot.MAINHAND);
-        NbtCompound compound = itemStack.getSubNbt(MOD_ID);
-        return compound != null && compound.contains(ITEM_NAME) && compound.getString(ITEM_NAME).equals(OBSIDIAN_PICKAXE);
-    }
 
     @Override
     public void setDisplayName(Text name) {
@@ -45,22 +39,6 @@ public abstract class MixinPlayerEntity implements PlayerAccess {
     public void injectGetDisplayName(CallbackInfoReturnable<Text> cir) {
         if (this.displayName != null) {
             cir.setReturnValue(displayName);
-        }
-    }
-
-
-    @Inject(method = "getBlockBreakingSpeed", at = @At("HEAD"), cancellable = true)
-    private void onGetBlockBreakingSpeed(BlockState block, CallbackInfoReturnable<Float> cir) {
-        if (holdingObsidianPickaxe() && block.isOf(Blocks.OBSIDIAN)) {
-            cir.setReturnValue(750f);// f = speed / 1500
-        }
-    }
-
-
-    @Inject(method = "canHarvest", at = @At("HEAD"), cancellable = true)
-    private void onGetCanMine(BlockState state, CallbackInfoReturnable<Boolean> cir) {
-        if (holdingObsidianPickaxe() && state.isOf(Blocks.OBSIDIAN)) {
-            cir.setReturnValue(true);
         }
     }
 }

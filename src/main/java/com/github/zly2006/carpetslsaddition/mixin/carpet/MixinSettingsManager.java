@@ -24,7 +24,7 @@ public abstract class MixinSettingsManager implements SettingsManagerAccessor {
         this.loadConfigurationFromConf();
     }
 
-    @Inject(method = "setRule", at = @At(value = "INVOKE", target = "Lcarpet/utils/Messenger;m(Lnet/minecraft/server/command/ServerCommandSource;[Ljava/lang/Object;)V", shift = At.Shift.BEFORE))
+    @Inject(method = "setRule", at = @At(value = "INVOKE", target = "Lcarpet/utils/Messenger;m(Lnet/minecraft/server/command/ServerCommandSource;[Ljava/lang/Object;)V", shift = At.Shift.BEFORE), remap = true)
     private void injectSetRule(ServerCommandSource source, CarpetRule<?> rule, String newValue, CallbackInfoReturnable<Integer> cir) {
         if ("maxUpdateQueueSize".equals(rule.name())) {
             MinecraftServer server = ServerMain.server;
