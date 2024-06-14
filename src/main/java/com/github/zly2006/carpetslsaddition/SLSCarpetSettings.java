@@ -47,9 +47,6 @@ public class SLSCarpetSettings {
     @Rule(categories = {CARPET_ID, PCA, RuleCategory.FEATURE, NEED_CLIENT})
     public static boolean emptyShulkerBoxStack = false;
 
-    @Rule(categories = {CARPET_ID, PCA, RuleCategory.FEATURE})
-    public static boolean useDyeOnShulkerBox = false;
-
     @Rule(categories = {CARPET_ID, PCA, PROTOCOL}, strict = false, options = {"#none"})
     public static String xaeroWorldName = "#none";
 

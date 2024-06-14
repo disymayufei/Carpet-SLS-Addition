@@ -2,6 +2,9 @@ package com.github.zly2006.carpetslsaddition.util;
 
 import com.github.zly2006.carpetslsaddition.SLSCarpetSettings;
 import net.minecraft.block.ShulkerBoxBlock;
+import net.minecraft.component.ComponentType;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.NbtComponent;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
@@ -13,11 +16,10 @@ public class ShulkerBoxItemUtil {
     public static boolean isEmptyShulkerBoxItem(ItemStack itemStack) {
         if (itemStack.getItem() instanceof BlockItem &&
                 ((BlockItem) itemStack.getItem()).getBlock() instanceof ShulkerBoxBlock) {
-            NbtCompound nbt = itemStack.getNbt();
-            if (nbt != null && nbt.contains("BlockEntityTag", 10)) {
-                NbtCompound tag = nbt.getCompound("BlockEntityTag");
-                if (tag.contains("Items", 9)) {
-                    NbtList tagList = tag.getList("Items", 10);
+            NbtComponent tag = itemStack.getComponents().get(DataComponentTypes.BLOCK_ENTITY_DATA);
+            if (tag != null) {
+                if (tag.contains("Items")) {
+                    NbtList tagList = tag.getNbt().getList("Items", 10);
                     return tagList.size() <= 0;
                 }
             }

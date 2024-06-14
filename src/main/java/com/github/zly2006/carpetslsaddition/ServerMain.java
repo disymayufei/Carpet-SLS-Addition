@@ -45,7 +45,6 @@ public class ServerMain implements ModInitializer, CarpetExtension {
     public void onInitialize() {
         INSTANCE = this;
         CarpetServer.manageExtension(this);
-        PcaSyncProtocol.init();
     }
 
     @Override

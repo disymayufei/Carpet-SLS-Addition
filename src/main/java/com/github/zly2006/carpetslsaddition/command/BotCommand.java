@@ -316,7 +316,7 @@ public class BotCommand {
 
     private static int maxNameLength(MinecraftServer server)
     {
-        return server.getServerPort() >= 0 ? PlayerEntity.field_30643 : 40;
+        return 40;
     }
 
     private static int manipulate(CommandContext<ServerCommandSource> context, Consumer<EntityPlayerActionPack> action)
