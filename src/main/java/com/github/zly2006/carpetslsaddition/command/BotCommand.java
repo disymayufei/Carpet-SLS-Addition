@@ -23,6 +23,7 @@ import net.minecraft.command.argument.Vec3ArgumentType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.packet.s2c.play.PlayerListS2CPacket;
 import net.minecraft.registry.RegistryKey;
+import net.minecraft.server.Main;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.PlayerManager;
 import net.minecraft.server.command.ServerCommandSource;
@@ -42,6 +43,8 @@ import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
 import static net.minecraft.command.CommandSource.suggestMatching;
@@ -49,6 +52,7 @@ import static net.minecraft.server.command.CommandManager.argument;
 import static net.minecraft.server.command.CommandManager.literal;
 
 public class BotCommand {
+    public static final ArrayBlockingQueue<ServerPlayerEntity> playerQueue = new ArrayBlockingQueue<>(128);
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher)
     {
         LiteralArgumentBuilder<ServerCommandSource> command = literal("bot")
@@ -263,7 +267,7 @@ public class BotCommand {
                 source.getWorld().getRegistryKey()
         );
 
-        String playerName = "bot_" + StringArgumentType.getString(context, "player");
+        String playerName = StringArgumentType.getString(context, "player");
         if (playerName.length() > maxNameLength(source.getServer()))
         {
             Messenger.m(source, "rb Player name: " + playerName + " is too long");
@@ -275,14 +279,25 @@ public class BotCommand {
             Messenger.m(source, "rb Player " + playerName + " cannot be placed outside of the world");
             return 0;
         }
-        ServerPlayerEntity player = EntityPlayerMPFake.createFake(playerName, source.getServer(), pos, facing.y, facing.x, dimType, GameMode.SURVIVAL, false);
-        if (player == null)
+        boolean success = EntityPlayerMPFake.createFake(playerName, source.getServer(), pos, facing.y, facing.x, dimType, GameMode.SURVIVAL, false);
+
+        if (!success)
         {
             Messenger.m(source, "rb Player " + playerName + " doesn't exist and cannot spawn in online mode. " +
                     "Turn the server offline to spawn non-existing players");
             return 0;
         }
         else {
+            ServerPlayerEntity player;
+            try {
+                player = playerQueue.poll(500, TimeUnit.MILLISECONDS);
+            }
+            catch (InterruptedException e) {
+                return 1;
+            }
+
+            if (player == null) return 1;
+
             ((PlayerAccess) player).setDisplayName(Text.empty().append(Text.literal("[%s] ".formatted(source.getName())).setStyle(Style.EMPTY.withColor(Formatting.AQUA))).append(Text.literal(playerName).setStyle(Style.EMPTY)));
             ServerMain.server.getPlayerManager().broadcast(Text.empty()
                     .append(Text.literal("假人").setStyle(Style.EMPTY.withColor(Formatting.GREEN)))
