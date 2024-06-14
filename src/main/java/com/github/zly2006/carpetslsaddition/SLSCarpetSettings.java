@@ -17,14 +17,8 @@ public class SLSCarpetSettings {
     @Rule(categories = {CARPET_ID, RuleCategory.OPTIMIZATION})
     public static int skipTicksForJoblessVillager = 0;
 
-    @Rule(categories = {CARPET_ID, RuleCategory.OPTIMIZATION}, options = {"-1", "24", "50"})
-    public static int maxVillagersInABlock = -1;
-
     @Rule(categories = {CARPET_ID, RuleCategory.CREATIVE})
     public static boolean creativeNoInfinitePickup = false;
-
-    @Rule(categories = {CARPET_ID})
-    public static boolean autoUrl = false;
 
     @Rule(categories = {CARPET_ID, RuleCategory.OPTIMIZATION})
     public static boolean noBatSpawning = false;
@@ -37,6 +31,9 @@ public class SLSCarpetSettings {
 
     @Rule(categories = {CARPET_ID, RuleCategory.FEATURE})
     public static boolean canUseSitCommand = false;
+
+    @Rule(categories = {CARPET_ID, RuleCategory.FEATURE})
+    public static boolean fakePlayersNotOccupiedSleepQuota = false;
 
     @Rule(categories = {CARPET_ID, RuleCategory.CREATIVE})
     public static int maxUpdateQueueSize = -1;
@@ -58,6 +55,9 @@ public class SLSCarpetSettings {
 
     @Rule(categories = {CARPET_ID, PCA, RuleCategory.FEATURE})
     public static boolean playerSit = false;
+
+    @Rule(categories = {CARPET_ID, RuleCategory.FEATURE})
+    public static boolean endermanCanPickUpMushroom = true;
 
     @Rule(categories = {CARPET_ID, RuleCategory.CREATIVE})
     public static boolean oldRedstoneConnectionLogic = false;

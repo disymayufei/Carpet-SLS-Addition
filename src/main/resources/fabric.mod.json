@@ -6,7 +6,8 @@
   "name": "Carpet SLS Addition",
   "description": "",
   "authors": [
-    "zly2006"
+    "zly2006",
+    "Disy920"
   ],
   "contact": {
   },
@@ -25,7 +26,7 @@
   ],
 
   "depends": {
-    "fabricloader": ">=0.13",
+    "fabricloader": ">=0.15.1",
     "fabric-api": "*",
     "minecraft": ">=1.20",
     "java": ">=17",
