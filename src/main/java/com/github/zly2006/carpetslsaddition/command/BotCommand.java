@@ -274,7 +274,7 @@ public class BotCommand {
                 source.getWorld().getRegistryKey()
         );
 
-        String playerName = StringArgumentType.getString(context, "player");
+        String playerName = "bot_" + StringArgumentType.getString(context, "player");
         if (playerName.length() > maxNameLength(source.getServer()))
         {
             Messenger.m(source, "rb Player name: " + playerName + " is too long");
