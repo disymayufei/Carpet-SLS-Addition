@@ -12,7 +12,6 @@
   "mixins": [
     "block.BlockPatternTestTransformInvoker",
     "block.MixinRedstoneWireBlock",
-    "carpet.MixinFakePlayer",
     "carpet.MixinSettingsManager",
     "entity.MixinArmorStandEntity",
     "entity.MixinEnderDragonFight",

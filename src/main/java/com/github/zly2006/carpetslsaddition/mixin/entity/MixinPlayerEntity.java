@@ -1,12 +1,9 @@
 package com.github.zly2006.carpetslsaddition.mixin.entity;
 
 import com.github.zly2006.carpetslsaddition.util.access.PlayerAccess;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.stat.Stat;
 import net.minecraft.text.Text;
 
@@ -16,8 +13,6 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-
-import static com.github.zly2006.carpetslsaddition.ServerMain.*;
 
 @Mixin(PlayerEntity.class)
 public abstract class MixinPlayerEntity implements PlayerAccess {
@@ -31,7 +26,7 @@ public abstract class MixinPlayerEntity implements PlayerAccess {
     private Text displayName = null;
 
     @Override
-    public void setDisplayName(Text name) {
+    public void carpet_SLS_Addition$setDisplayName(Text name) {
         this.displayName = name;
     }
 
