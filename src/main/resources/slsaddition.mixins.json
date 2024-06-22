@@ -21,9 +21,11 @@
     "entity.MixinPlayerEntity",
     "entity.MixinServerPlayerEntity",
     "entity.MixinVillagerEntity",
-    "player.AccessorPlayerAbilities",
-    "screen.MixinSlot",
+    "player.MixinPlayerInventory",
     "server.MixinMinecraftServer",
+    "shulker.MixinItemStack",
+    "shulker.MixinScreenHandler",
+    "shulker.MixinSlot",
     "world.MixinSleepManager",
     "world.MixinSpawnHelper",
     "world.MixinWorld"
