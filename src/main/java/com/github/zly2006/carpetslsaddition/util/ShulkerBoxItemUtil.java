@@ -30,11 +30,8 @@ public class ShulkerBoxItemUtil {
         if (itemStack.getItem() instanceof BlockItem &&
                 ((BlockItem) itemStack.getItem()).getBlock() instanceof ShulkerBoxBlock) {
             NbtComponent tag = itemStack.getComponents().get(DataComponentTypes.BLOCK_ENTITY_DATA);
-            if (tag != null) {
-                if (tag.contains("Items")) {
-                    NbtList tagList = tag.getNbt().getList("Items", 10);
-                    return tagList.size() <= 0;
-                }
+            if (tag != null && tag.contains("Items")) {
+                return tag.getNbt().getList("Items", 10).isEmpty();
             }
             return true;
         } else {
