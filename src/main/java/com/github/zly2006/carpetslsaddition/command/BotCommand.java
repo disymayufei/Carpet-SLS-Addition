@@ -4,9 +4,10 @@ import carpet.CarpetSettings;
 import carpet.fakes.ServerPlayerInterface;
 import carpet.helpers.EntityPlayerActionPack;
 import carpet.patches.EntityPlayerMPFake;
+import carpet.patches.FakeClientConnection;
 import carpet.utils.Messenger;
-import com.github.zly2006.carpetslsaddition.util.access.PlayerAccess;
 import com.github.zly2006.carpetslsaddition.ServerMain;
+import com.github.zly2006.carpetslsaddition.util.access.PlayerAccess;
 import com.mojang.authlib.GameProfile;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
@@ -20,17 +21,24 @@ import net.minecraft.command.argument.DimensionArgumentType;
 import net.minecraft.command.argument.GameModeArgumentType;
 import net.minecraft.command.argument.RotationArgumentType;
 import net.minecraft.command.argument.Vec3ArgumentType;
+import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.network.NetworkSide;
+import net.minecraft.network.packet.c2s.common.SyncedClientOptions;
+import net.minecraft.network.packet.s2c.play.EntityPositionS2CPacket;
+import net.minecraft.network.packet.s2c.play.EntitySetHeadYawS2CPacket;
 import net.minecraft.network.packet.s2c.play.PlayerListS2CPacket;
 import net.minecraft.registry.RegistryKey;
-import net.minecraft.server.Main;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.PlayerManager;
 import net.minecraft.server.command.ServerCommandSource;
+import net.minecraft.server.network.ConnectedClientData;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.UserCache;
 import net.minecraft.util.Uuids;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -39,12 +47,12 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.GameMode;
 import net.minecraft.world.World;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
 import static net.minecraft.command.CommandSource.suggestMatching;
@@ -52,7 +60,6 @@ import static net.minecraft.server.command.CommandManager.argument;
 import static net.minecraft.server.command.CommandManager.literal;
 
 public class BotCommand {
-    public static final ArrayBlockingQueue<ServerPlayerEntity> playerQueue = new ArrayBlockingQueue<>(128);
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher)
     {
         LiteralArgumentBuilder<ServerCommandSource> command = literal("bot")
@@ -279,39 +286,87 @@ public class BotCommand {
             Messenger.m(source, "rb Player " + playerName + " cannot be placed outside of the world");
             return 0;
         }
-        boolean success = EntityPlayerMPFake.createFake(playerName, source.getServer(), pos, facing.y, facing.x, dimType, GameMode.SURVIVAL, false);
 
-        if (!success)
+        EntityPlayerMPFake bot = createBot(playerName, source.getServer(), pos, facing.y, facing.x, dimType);
+
+        if (bot == null)
         {
             Messenger.m(source, "rb Player " + playerName + " doesn't exist and cannot spawn in online mode. " +
                     "Turn the server offline to spawn non-existing players");
             return 0;
         }
-        else {
-            ServerPlayerEntity player;
-            try {
-                player = playerQueue.poll(500, TimeUnit.MILLISECONDS);
-            }
-            catch (InterruptedException e) {
-                return 1;
-            }
 
-            if (player == null) return 1;
+        ((PlayerAccess) bot).carpet_SLS_Addition$setDisplayName(Text.empty().append(Text.literal("[%s] ".formatted(source.getName())).setStyle(Style.EMPTY.withColor(Formatting.AQUA))).append(Text.literal(playerName).setStyle(Style.EMPTY)));
 
-            ((PlayerAccess) player).setDisplayName(Text.empty().append(Text.literal("[%s] ".formatted(source.getName())).setStyle(Style.EMPTY.withColor(Formatting.AQUA))).append(Text.literal(playerName).setStyle(Style.EMPTY)));
-            ServerMain.server.getPlayerManager().broadcast(Text.empty()
-                    .append(Text.literal("假人").setStyle(Style.EMPTY.withColor(Formatting.GREEN)))
-                    .append(Text.literal(playerName).setStyle(Style.EMPTY.withColor(Formatting.GOLD).withBold(true)))
-                    .append(Text.literal("由玩家").setStyle(Style.EMPTY.withColor(Formatting.GREEN)))
-                    .append(source.getDisplayName())
-                    .append(Text.literal("召唤！").setStyle(Style.EMPTY.withColor(Formatting.GREEN))), false);
+        ServerMain.server.getPlayerManager().broadcast(Text.empty()
+                .append(Text.literal("假人").setStyle(Style.EMPTY.withColor(Formatting.GREEN)))
+                .append(Text.literal(playerName).setStyle(Style.EMPTY.withColor(Formatting.GOLD).withBold(true)))
+                .append(Text.literal("由玩家").setStyle(Style.EMPTY.withColor(Formatting.GREEN)))
+                .append(source.getDisplayName())
+                .append(Text.literal("召唤！").setStyle(Style.EMPTY.withColor(Formatting.GREEN))), false);
 
-            ServerMain.server.getPlayerManager().sendToAll(new PlayerListS2CPacket(
-                    PlayerListS2CPacket.Action.UPDATE_DISPLAY_NAME,
-                    player
-            ));
-        }
+        ServerMain.server.getPlayerManager().sendToAll(new PlayerListS2CPacket(
+                PlayerListS2CPacket.Action.UPDATE_DISPLAY_NAME,
+                bot
+        ));
         return 1;
+    }
+
+    @SuppressWarnings("unchecked")
+    private static EntityPlayerMPFake createBot(String username, MinecraftServer server, Vec3d pos, double yaw, double pitch, RegistryKey<World> dimensionId) {
+        ServerWorld worldIn = server.getWorld(dimensionId);
+        UserCache.setUseRemote(false);
+        GameProfile gameprofile;
+        try {
+            gameprofile = server.getUserCache().findByName(username).orElse(null); //findByName  .orElse(null)
+        }
+        finally {
+            UserCache.setUseRemote(server.isDedicated() && server.isOnlineMode());
+        }
+        if (gameprofile == null)
+        {
+            if (!CarpetSettings.allowSpawningOfflinePlayers)
+            {
+                return null;
+            } else {
+                gameprofile = new GameProfile(Uuids.getOfflinePlayerUuid(username), username);
+            }
+        }
+
+        // 孩子不懂，用反射写着玩的，报错了记得随Carpet一起升级一下
+
+        try {
+            Class<EntityPlayerMPFake> fakePlayerClass = (Class<EntityPlayerMPFake>)Class.forName("carpet.patches.EntityPlayerMPFake");
+            Constructor<EntityPlayerMPFake> constructor = fakePlayerClass.getDeclaredConstructor(
+                    MinecraftServer.class,
+                    ServerWorld.class,
+                    GameProfile.class,
+                    SyncedClientOptions.class,
+                    boolean.class
+            );
+            constructor.setAccessible(true);
+            EntityPlayerMPFake bot = constructor.newInstance(server, worldIn, gameprofile, SyncedClientOptions.createDefault(), false);
+
+            bot.fixStartingPosition = () -> bot.refreshPositionAndAngles(pos.x, pos.y, pos.z, (float) yaw, (float) pitch);
+            server.getPlayerManager().onPlayerConnect(new FakeClientConnection(NetworkSide.SERVERBOUND), bot, new ConnectedClientData(gameprofile, 0, bot.getClientOptions(), false));
+
+            bot.teleport(worldIn, pos.x, pos.y, pos.z, (float) yaw, (float) pitch);
+            bot.setHealth(20.0F);
+            bot.unsetRemoved();
+            bot.getAttributeInstance(EntityAttributes.GENERIC_STEP_HEIGHT).setBaseValue(0.6F);
+            bot.interactionManager.changeGameMode(GameMode.SURVIVAL);
+
+            server.getPlayerManager().sendToDimension(new EntitySetHeadYawS2CPacket(bot, (byte) (bot.headYaw * 256 / 360)), dimensionId);//bot.dimension);
+            server.getPlayerManager().sendToDimension(new EntityPositionS2CPacket(bot), dimensionId);
+
+            bot.getDataTracker().set(PlayerEntity.PLAYER_MODEL_PARTS, (byte) 0x7f); // show all model layers (incl. capes)
+            bot.getAbilities().flying = false;
+
+            return bot;
+        }
+        catch (ClassNotFoundException | NoSuchMethodException  | InstantiationException | IllegalAccessException | InvocationTargetException e) {
+            throw new RuntimeException("An error has occurred when trying spawn a new bot with reflection", e);
+        }
     }
 
     private static int maxNameLength(MinecraftServer server)

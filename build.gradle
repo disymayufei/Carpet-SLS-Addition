@@ -41,14 +41,14 @@ dependencies {
 	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 	// luck perm
-	modRuntimeOnly "maven.modrinth:luckperms:v5.4.83-fabric"
+	modRuntimeOnly "maven.modrinth:luckperms:v5.4.133-fabric"
 
 	// carpet
 	modImplementation "carpet:fabric-carpet:${project.carpet_core_version}"
 	// modImplementation(files("./lib/fabric-carpet-1.20-1.4.112+v230608.jar"))
 
 	// Fabric Permission API
-	include(modImplementation('me.lucko:fabric-permissions-api:0.2-SNAPSHOT'))
+	include(modImplementation('me.lucko:fabric-permissions-api:0.3.1'))
 	include(modImplementation('com.github.Fallen-Breath:conditional-mixin:v0.4.0'))
 
 	// Fabric API. This is technically optional, but you probably want it anyway.

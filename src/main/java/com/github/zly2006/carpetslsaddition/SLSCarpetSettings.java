@@ -24,9 +24,6 @@ public class SLSCarpetSettings {
     public static boolean noBatSpawning = false;
 
     @Rule(categories = {CARPET_ID, RuleCategory.FEATURE})
-    public static boolean offlineFakePlayers = false;
-
-    @Rule(categories = {CARPET_ID, RuleCategory.FEATURE})
     public static boolean canUseHatCommand = false;
 
     @Rule(categories = {CARPET_ID, RuleCategory.FEATURE})
