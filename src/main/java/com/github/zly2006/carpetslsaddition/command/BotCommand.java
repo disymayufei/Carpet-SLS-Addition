@@ -6,6 +6,7 @@ import carpet.helpers.EntityPlayerActionPack;
 import carpet.patches.EntityPlayerMPFake;
 import carpet.patches.FakeClientConnection;
 import carpet.utils.Messenger;
+import com.github.zly2006.carpetslsaddition.SLSCarpetSettings;
 import com.github.zly2006.carpetslsaddition.ServerMain;
 import com.github.zly2006.carpetslsaddition.util.access.PlayerAccess;
 import com.mojang.authlib.GameProfile;
@@ -197,7 +198,7 @@ public class BotCommand {
 
     private static boolean cantSpawn(CommandContext<ServerCommandSource> context)
     {
-        String playerName = StringArgumentType.getString(context, "player");
+        String playerName = getBotPrefix() + StringArgumentType.getString(context, "player");
         MinecraftServer server = context.getSource().getServer();
         PlayerManager manager = server.getPlayerManager();
 
@@ -229,6 +230,10 @@ public class BotCommand {
             return true;
         }
         return false;
+    }
+
+    private static String getBotPrefix() {
+        return SLSCarpetSettings.botPrefix.equals("#none") ? "" : SLSCarpetSettings.botPrefix;
     }
 
     private static int kill(CommandContext<ServerCommandSource> context)
@@ -274,7 +279,7 @@ public class BotCommand {
                 source.getWorld().getRegistryKey()
         );
 
-        String playerName = "bot_" + StringArgumentType.getString(context, "player");
+        String playerName = getBotPrefix() + StringArgumentType.getString(context, "player");
         if (playerName.length() > maxNameLength(source.getServer()))
         {
             Messenger.m(source, "rb Player name: " + playerName + " is too long");

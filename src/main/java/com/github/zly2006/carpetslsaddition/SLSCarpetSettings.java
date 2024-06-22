@@ -27,6 +27,12 @@ public class SLSCarpetSettings {
     @Rule(categories = {CARPET_ID, RuleCategory.FEATURE})
     public static boolean canUseSitCommand = false;
 
+    @Rule(categories = {CARPET_ID}, strict = false, options = {"#none"})
+    public static String botPrefix = "#none";
+
+    @Rule(categories = {CARPET_ID, RuleCategory.FEATURE})
+    public static boolean creativeObeyEnchantmentRule = false;
+
     @Rule(categories = {CARPET_ID, RuleCategory.FEATURE})
     public static boolean fakePlayersNotOccupiedSleepQuota = false;
 
