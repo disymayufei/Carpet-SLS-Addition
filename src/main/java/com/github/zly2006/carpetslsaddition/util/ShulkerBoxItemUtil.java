@@ -1,17 +1,30 @@
 package com.github.zly2006.carpetslsaddition.util;
 
-import com.github.zly2006.carpetslsaddition.SLSCarpetSettings;
 import net.minecraft.block.ShulkerBoxBlock;
-import net.minecraft.component.ComponentType;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.NbtComponent;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import java.util.Objects;
 
 public class ShulkerBoxItemUtil {
     public static final int SHULKERBOX_MAX_STACK_AMOUNT = 64;
+
+    public static boolean shulkerBoxEqual(ItemStack stack, ItemStack otherStack) {
+        if (ShulkerBoxItemUtil.isEmptyShulkerBoxItem(stack) && ShulkerBoxItemUtil.isEmptyShulkerBoxItem(otherStack)) {
+            if (stack.isEmpty() && otherStack.isEmpty()) {
+                return true;
+            }
+            return Objects.equals(
+                    stack.getComponents().filtered(s -> s != DataComponentTypes.BLOCK_ENTITY_DATA),
+                    stack.getComponents().filtered(s -> s != DataComponentTypes.BLOCK_ENTITY_DATA)
+            );
+        }
+        return ItemStack.areItemsAndComponentsEqual(stack, otherStack);
+    }
 
     public static boolean isEmptyShulkerBoxItem(ItemStack itemStack) {
         if (itemStack.getItem() instanceof BlockItem &&
@@ -29,15 +42,4 @@ public class ShulkerBoxItemUtil {
         }
     }
 
-    public static int getMaxCount(ItemStack itemStack) {
-        if (SLSCarpetSettings.emptyShulkerBoxStack && ShulkerBoxItemUtil.isEmptyShulkerBoxItem(itemStack)) {
-            return ShulkerBoxItemUtil.SHULKERBOX_MAX_STACK_AMOUNT;
-        } else {
-            return itemStack.getMaxCount();
-        }
-    }
-
-    public static boolean isStackable(ItemStack itemStack) {
-        return getMaxCount(itemStack) > 1 && (!itemStack.isDamageable() || !itemStack.isDamaged());
-    }
 }

@@ -7,9 +7,7 @@ import net.minecraft.block.RedstoneBlock;
 import static com.github.zly2006.carpetslsaddition.ServerMain.CARPET_ID;
 
 public class SLSCarpetSettings {
-    public static final String PCA = "pca";  // 用于描述兼容PCA的规则
     public static final String NEED_CLIENT = "needClient";  // 需要客户端安装SLS-Addition或实现相关支持
-    public static final String PROTOCOL = "protocol";
 
     @Rule(categories = {CARPET_ID, RuleCategory.SURVIVAL})
     public static boolean obtainableReinforcedDeepSlate = false;
@@ -35,19 +33,10 @@ public class SLSCarpetSettings {
     @Rule(categories = {CARPET_ID, RuleCategory.CREATIVE})
     public static int maxUpdateQueueSize = -1;
 
-    @Rule(categories = {CARPET_ID, PCA, PROTOCOL})
-    public static boolean pcaSyncProtocol = false;
-
-    @Rule(categories = {CARPET_ID, PCA, PROTOCOL})
-    public static PCA_SYNC_PLAYER_ENTITY_OPTIONS pcaSyncPlayerEntity = PCA_SYNC_PLAYER_ENTITY_OPTIONS.OPS;
-
-    @Rule(categories = {CARPET_ID, PCA, RuleCategory.FEATURE, NEED_CLIENT})
+    @Rule(categories = {CARPET_ID, RuleCategory.FEATURE, NEED_CLIENT})
     public static boolean emptyShulkerBoxStack = false;
 
-    @Rule(categories = {CARPET_ID, PCA, PROTOCOL}, strict = false, options = {"#none"})
-    public static String xaeroWorldName = "#none";
-
-    @Rule(categories = {CARPET_ID, PCA, RuleCategory.FEATURE})
+    @Rule(categories = {CARPET_ID, RuleCategory.FEATURE})
     public static boolean playerSit = false;
 
     @Rule(categories = {CARPET_ID, RuleCategory.FEATURE})
@@ -58,10 +47,4 @@ public class SLSCarpetSettings {
 
     @Rule(categories = {CARPET_ID, RuleCategory.OPTIMIZATION})
     public static boolean optimizedOnDragonRespawn = false;
-
-
-    public enum PCA_SYNC_PLAYER_ENTITY_OPTIONS {
-        NOBODY, BOT, OPS, OPS_AND_SELF, EVERYONE
-    }
-
 }
