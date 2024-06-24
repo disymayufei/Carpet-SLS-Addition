@@ -31,8 +31,6 @@ public class ServerMain implements ModInitializer, CarpetExtension {
     public static final String MOD_NAME = "Carpet SLS Addition";
     public static final Version MOD_VERSION = FabricLoader.getInstance().getModContainer(MOD_ID).get().getMetadata().getVersion();
 
-    public static final String CARPET_ID = "SLS";
-
     public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
     static final Gson GSON = new GsonBuilder().setLenient().create();  // 使用宽容模式，避免部分开发者在书写JSON时不遵守RFC 4627规范
 
