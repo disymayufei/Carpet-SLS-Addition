@@ -18,7 +18,7 @@ public abstract class MixinElytraItem extends Item implements Equipment {
     @Override
     public ItemStack getRecipeRemainder(ItemStack stack) {
         if (SLSCarpetSettings.elytraCraftable) {
-            return stack;
+            return stack.copyWithCount(1);
         }
         else return ItemStack.EMPTY;
     }
