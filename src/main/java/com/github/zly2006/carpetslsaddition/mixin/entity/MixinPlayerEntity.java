@@ -1,10 +1,7 @@
 package com.github.zly2006.carpetslsaddition.mixin.entity;
 
 import com.github.zly2006.carpetslsaddition.util.access.PlayerAccess;
-import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.stat.Stat;
 import net.minecraft.text.Text;
 
 import org.spongepowered.asm.mixin.Mixin;
@@ -16,10 +13,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(PlayerEntity.class)
 public abstract class MixinPlayerEntity implements PlayerAccess {
-    @Shadow public abstract ItemStack getEquippedStack(EquipmentSlot slot);
-
-    @Shadow public abstract void resetStat(Stat<?> stat);
-
     @Shadow public abstract Text getName();
 
     @Unique

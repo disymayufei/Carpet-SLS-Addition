@@ -11,11 +11,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(EndermanEntity.PickUpBlockGoal.class)
-public class
-
-
-
-MixinEndermanGoal {
+public class MixinEndermanGoal {
     @Redirect(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/BlockState;isIn(Lnet/minecraft/registry/tag/TagKey;)Z"))
     public boolean isHoldable(BlockState blockState, TagKey<Block> tagKey) {
         if (!SLSCarpetSettings.endermanCanPickUpMushroom) {

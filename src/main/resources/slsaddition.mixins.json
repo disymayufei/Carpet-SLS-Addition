@@ -3,7 +3,6 @@
   "minVersion": "0.8",
   "package": "com.github.zly2006.carpetslsaddition.mixin",
   "compatibilityLevel": "JAVA_17",
-  "plugin": "com.github.zly2006.carpetslsaddition.mixin.plugin.BasicMixinPlugin",
   "server": [
     "server.MixinMinecraftDedicatedServer"
   ],
@@ -15,6 +14,8 @@
     "carpet.MixinSettingsManager",
     "datapack.MixinVanillaResourcePackProvider",
     "elytra.MixinElytraItem",
+    "elytra.MixinItem",
+    "elytra.MixinRecipe",
     "entity.MixinArmorStandEntity",
     "entity.MixinEnderDragonFight",
     "entity.MixinEndermanGoal",
