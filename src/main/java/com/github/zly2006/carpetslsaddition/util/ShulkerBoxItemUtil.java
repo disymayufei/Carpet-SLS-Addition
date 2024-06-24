@@ -2,11 +2,8 @@ package com.github.zly2006.carpetslsaddition.util;
 
 import net.minecraft.block.ShulkerBoxBlock;
 import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.NbtComponent;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtList;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Objects;
 
@@ -19,8 +16,8 @@ public class ShulkerBoxItemUtil {
                 return true;
             }
             return Objects.equals(
-                    stack.getComponents().filtered(s -> s != DataComponentTypes.BLOCK_ENTITY_DATA),
-                    stack.getComponents().filtered(s -> s != DataComponentTypes.BLOCK_ENTITY_DATA)
+                    stack.getComponents().filtered(s -> s != DataComponentTypes.CONTAINER),
+                    stack.getComponents().filtered(s -> s != DataComponentTypes.CONTAINER)
             );
         }
         return ItemStack.areItemsAndComponentsEqual(stack, otherStack);
@@ -29,11 +26,11 @@ public class ShulkerBoxItemUtil {
     public static boolean isEmptyShulkerBoxItem(ItemStack itemStack) {
         if (itemStack.getItem() instanceof BlockItem &&
                 ((BlockItem) itemStack.getItem()).getBlock() instanceof ShulkerBoxBlock) {
-            NbtComponent tag = itemStack.getComponents().get(DataComponentTypes.BLOCK_ENTITY_DATA);
-            if (tag != null && tag.contains("Items")) {
-                return tag.getNbt().getList("Items", 10).isEmpty();
+            if (itemStack.getComponents().contains(DataComponentTypes.CONTAINER)) {
+                return !itemStack.getComponents().get(DataComponentTypes.CONTAINER).iterateNonEmpty().iterator().hasNext();
+            } else {
+                return true;
             }
-            return true;
         } else {
             return false;
         }

@@ -2,7 +2,6 @@ package com.github.zly2006.carpetslsaddition;
 
 import carpet.api.settings.Rule;
 import carpet.api.settings.RuleCategory;
-import net.minecraft.block.RedstoneBlock;
 
 import static com.github.zly2006.carpetslsaddition.ServerMain.CARPET_ID;
 
@@ -56,4 +55,7 @@ public class SLSCarpetSettings {
 
     @Rule(categories = {CARPET_ID, RuleCategory.FEATURE})
     public static boolean printStackTraceOnVillagerSpawn = false;
+
+    @Rule(categories = {CARPET_ID, RuleCategory.FEATURE})
+    public static boolean elytraCraftable = false;
 }
