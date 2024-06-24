@@ -48,5 +48,6 @@
   "carpet.rule.maxUpdateQueueSize.extra.0": "If set to a value not greater than 0, turn off this function and run according to Vanilla",
   "carpet.rule.maxUpdateQueueSize.extra.1": "Otherwise, when the number of single updates exceeds the set value, an OutOfMemoryError will be thrown to generate update suppression",
   "carpet.rule.emptyShulkerBoxStack.extra.0": "Empty shulker boxes can stack in a player's inventory or hand",
-  "carpet.rule.emptyShulkerBoxStack.extra.1": "Empty shulker boxes will not stack in other inventories, such as chests or hoppers"
+  "carpet.rule.emptyShulkerBoxStack.extra.1": "Empty shulker boxes will not stack in other inventories, such as chests or hoppers",
+  "carpet.rule.elytraCraftable.desc": "Make elytra craftable for Minecraft 1.20.6+ (eltra wont disappear when crafting)"
 }
