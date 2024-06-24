@@ -17,6 +17,9 @@ import java.nio.file.Path;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
+/**
+ * @author zly2006
+ */
 @Mixin(VanillaResourcePackProvider.class)
 public abstract class MixinVanillaResourcePackProvider {
     @Shadow protected abstract void forEachProfile(@Nullable Path namespacedPath, BiConsumer<String, Function<String, ResourcePackProfile>> consumer);

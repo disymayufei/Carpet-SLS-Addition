@@ -50,5 +50,6 @@
   "carpet.rule.maxUpdateQueueSize.extra.0": "如果设定了不超过0的值，将关闭该功能，更新机制继续依照Vanilla运行",
   "carpet.rule.maxUpdateQueueSize.extra.1": "否则，在单次更新数量超过设定最大容量后，服务器将抛出OutOfMemoryError，以达到快速更新抑制的效果",
   "carpet.rule.emptyShulkerBoxStack.extra.0": "空潜影盒可以在玩家的背包进行自动堆叠，同时玩家可以手动堆叠空潜影盒",
-  "carpet.rule.emptyShulkerBoxStack.extra.1": "但是空潜影盒无法在容器中自动堆叠，比如箱子，漏斗"
+  "carpet.rule.emptyShulkerBoxStack.extra.1": "但是空潜影盒无法在容器中自动堆叠，比如箱子，漏斗",
+  "carpet.rule.elytraCraftable.desc": "使鞘翅在 1.20.6+ 可合成 (合成时不会消失)"
 }
