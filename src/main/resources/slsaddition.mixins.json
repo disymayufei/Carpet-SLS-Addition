@@ -13,6 +13,8 @@
     "block.BlockPatternTestTransformInvoker",
     "block.MixinRedstoneWireBlock",
     "carpet.MixinSettingsManager",
+    "datapack.MixinVanillaResourcePackProvider",
+    "elytra.MixinElytraItem",
     "entity.MixinArmorStandEntity",
     "entity.MixinEnderDragonFight",
     "entity.MixinEndermanGoal",

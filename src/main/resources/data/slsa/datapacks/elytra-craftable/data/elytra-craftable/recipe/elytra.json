@@ -1,0 +1,26 @@
+{
+  "type": "crafting_shaped",
+  "pattern": [
+    "XAX",
+    "XKX",
+    "XBX"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:end_crystal"
+    },
+    "B": {
+      "item": "minecraft:nether_star"
+    },
+    "X": {
+      "item": "minecraft:phantom_membrane"
+    },
+    "K": {
+      "item": "minecraft:elytra"
+    }
+  },
+  "category": "equipment",
+  "result": {
+    "id": "minecraft:elytra"
+  }
+}
