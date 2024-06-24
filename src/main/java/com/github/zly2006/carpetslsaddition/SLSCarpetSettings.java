@@ -53,4 +53,7 @@ public class SLSCarpetSettings {
 
     @Rule(categories = {CARPET_ID, RuleCategory.OPTIMIZATION})
     public static boolean optimizedOnDragonRespawn = false;
+
+    @Rule(categories = {CARPET_ID, RuleCategory.FEATURE})
+    public static boolean printStackTraceOnVillagerSpawn = false;
 }

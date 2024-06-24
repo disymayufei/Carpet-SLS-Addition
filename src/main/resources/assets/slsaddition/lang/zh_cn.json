@@ -22,6 +22,7 @@
   "carpet.rule.enableCCESuppressor.name": "恢复CCE抑制器",
   "carpet.rule.fakePlayersNotOccupiedSleepQuota.name": "假人不占用睡眠名额",
   "carpet.rule.endermanCanPickUpMushroom.name": "末影人可拿起蘑菇",
+  "carpet.rule.printStackTraceOnVillagerSpawn.name": "打印村民生成报告",
 
   "carpet.rule.obtainableReinforcedDeepSlate.desc": "当铁砧在64个深板岩的掉落物上时，可以获得强化深板岩",
   "carpet.rule.skipTicksForJoblessVillager.desc": "对于无业/傻子村民，执行设定数量的tick运算后，跳过1tick的运算",
@@ -41,6 +42,7 @@
   "carpet.rule.enableCCESuppressor.desc": "让1.20.1及更早的CCE抑制器变得再次可用",
   "carpet.rule.fakePlayersNotOccupiedSleepQuota.desc": "让假人不再占用睡眠名额，这样即使假人不睡觉也能跳过夜晚",
   "carpet.rule.endermanCanPickUpMushroom.desc": "如果该选项打开，则末影人可以捡起地上的蘑菇",
+  "carpet.rule.printStackTraceOnVillagerSpawn.desc": "当有村民生成时，将会生成一份包含调用栈的报告，显示在控制端中",
 
   "carpet.rule.skipTicksForJoblessVillager.extra.0": "设置为0则保持原版行为",
   "carpet.rule.skipTicksForJoblessVillager.extra.1": "设置为大于0的数，将在设置的基础上将该值+1",
