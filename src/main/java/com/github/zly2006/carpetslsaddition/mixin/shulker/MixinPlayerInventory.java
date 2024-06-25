@@ -25,6 +25,20 @@ public abstract class MixinPlayerInventory implements Inventory {
         return instance.isStackable();
     }
 
+    @Redirect(
+            method = "offer",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/item/ItemStack;getMaxCount()I"
+            )
+    )
+    private int redirectMaxCount(ItemStack stack) {
+        if (SLSCarpetSettings.emptyShulkerBoxStack && ShulkerBoxItemUtil.isEmptyShulkerBoxItem(stack)) {
+            return ShulkerBoxItemUtil.SHULKERBOX_MAX_STACK_AMOUNT;
+        }
+        return Inventory.super.getMaxCount(stack);
+    }
+
     @Override
     public int getMaxCount(ItemStack stack) {
         if (SLSCarpetSettings.emptyShulkerBoxStack && ShulkerBoxItemUtil.isEmptyShulkerBoxItem(stack)) {
