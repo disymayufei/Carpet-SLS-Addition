@@ -376,7 +376,7 @@ public class BotCommand {
 
     private static int maxNameLength(MinecraftServer server)
     {
-        return 40;
+        return 16;
     }
 
     private static int manipulate(CommandContext<ServerCommandSource> context, Consumer<EntityPlayerActionPack> action)
