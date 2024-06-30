@@ -18,6 +18,7 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import me.lucko.fabric.api.permissions.v0.Permissions;
+import net.minecraft.SharedConstants;
 import net.minecraft.command.argument.DimensionArgumentType;
 import net.minecraft.command.argument.GameModeArgumentType;
 import net.minecraft.command.argument.RotationArgumentType;
@@ -376,7 +377,7 @@ public class BotCommand {
 
     private static int maxNameLength(MinecraftServer server)
     {
-        return 16;
+        return server.getServerPort() >= 0 ? SharedConstants.field_49170 : 40;
     }
 
     private static int manipulate(CommandContext<ServerCommandSource> context, Consumer<EntityPlayerActionPack> action)
