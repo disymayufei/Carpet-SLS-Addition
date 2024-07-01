@@ -3,7 +3,7 @@ package com.github.zly2006.carpetslsaddition.mixin.world;
 import com.github.zly2006.carpetslsaddition.ServerMain;
 import com.github.zly2006.carpetslsaddition.block.RewriteChainRestrictedNeighborUpdater;
 import com.github.zly2006.carpetslsaddition.util.NeighborUpdaterChanger;
-import com.github.zly2006.carpetslsaddition.util.access.ServerAccess;
+import com.github.zly2006.carpetslsaddition.util.access.ServerAccessor;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.world.World;
@@ -27,7 +27,7 @@ public abstract class MixinWorld implements NeighborUpdaterChanger {
             int maxDepth;
 
             if (FabricLoader.getInstance().getEnvironmentType() == EnvType.SERVER) {
-                maxDepth = ((ServerAccess) ServerMain.server).getPropertiesLoader().getPropertiesHandler().maxChainedNeighborUpdates;
+                maxDepth = ((ServerAccessor) ServerMain.server).getPropertiesLoader().getPropertiesHandler().maxChainedNeighborUpdates;
             }
             else {
                 maxDepth = 1000000;

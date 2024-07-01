@@ -37,6 +37,10 @@ public class SLSCarpetSettings {
     public static String botPrefix = "#none";
 
     /** Carpet SLS Addition original **/
+    @Rule(categories = {SLSA})
+    public static long botMaxOnlineTime = -1;
+
+    /** Carpet SLS Addition original **/
     @Rule(categories = {SLSA, RuleCategory.FEATURE})
     public static boolean creativeObeyEnchantmentRule = false;
 
@@ -75,4 +79,8 @@ public class SLSCarpetSettings {
     /** Carpet SLS Addition original **/
     @Rule(categories = {SLSA, RuleCategory.FEATURE})
     public static boolean elytraCraftable = false;
+
+    /** Carpet SLS Addition original **/
+    @Rule(categories = {SLSA, RuleCategory.FEATURE})
+    public static boolean spectatorCannotUseLeash = false;
 }

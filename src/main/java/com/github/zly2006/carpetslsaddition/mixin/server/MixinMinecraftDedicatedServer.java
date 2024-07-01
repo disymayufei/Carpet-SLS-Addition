@@ -1,6 +1,6 @@
 package com.github.zly2006.carpetslsaddition.mixin.server;
 
-import com.github.zly2006.carpetslsaddition.util.access.ServerAccess;
+import com.github.zly2006.carpetslsaddition.util.access.ServerAccessor;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.server.dedicated.MinecraftDedicatedServer;
@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.Shadow;
 
 @Environment(EnvType.SERVER)
 @Mixin(MinecraftDedicatedServer.class)
-public class MixinMinecraftDedicatedServer implements ServerAccess {
+public class MixinMinecraftDedicatedServer implements ServerAccessor {
 
     @Shadow
     @Final

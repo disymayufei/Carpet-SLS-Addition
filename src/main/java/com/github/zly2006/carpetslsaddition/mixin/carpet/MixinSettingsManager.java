@@ -20,7 +20,7 @@ public abstract class MixinSettingsManager implements SettingsManagerAccessor {
     @Shadow protected abstract void loadConfigurationFromConf();
 
     @Override
-    public void loadSettings() {
+    public void carpet_SLS_Addition$loadSettings() {
         this.loadConfigurationFromConf();
     }
 
