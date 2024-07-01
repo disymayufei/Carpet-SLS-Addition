@@ -82,7 +82,7 @@ public class BotCommand {
                                 .then(argument("slot", IntegerArgumentType.integer(1, 9))
                                         .executes(c -> manipulate(c, ap -> ap.setSlot(IntegerArgumentType.getInteger(c, "slot"))))))
                         .then(literal("kill").executes(BotCommand::kill))
-                        .then(literal("respawn")).executes(BotCommand::respawn)
+                        .then(literal("respawn").executes(BotCommand::respawn))
                         .then(literal("mount").executes(manipulation(ap -> ap.mount(true)))
                                 .then(literal("anything").executes(manipulation(ap -> ap.mount(false)))))
                         .then(literal("dismount").executes(manipulation(EntityPlayerActionPack::dismount)))
@@ -248,7 +248,7 @@ public class BotCommand {
 
     private static int respawn(CommandContext<ServerCommandSource> context) {
         var player = getPlayer(context);
-        if (((SLSBotAccessor)player).carpet_SLS_Addition$isBot()) {
+        if (player instanceof EntityPlayerMPFake && ((SLSBotAccessor)player).carpet_SLS_Addition$isBot()) {
             ((SLSBotAccessor)player).carpet_SLS_Addition$setSpawnTime(System.currentTimeMillis());
             context.getSource().sendMessage(
                     Text.translatable("carpet.slsa.bot.respawned", player.getNameForScoreboard())
