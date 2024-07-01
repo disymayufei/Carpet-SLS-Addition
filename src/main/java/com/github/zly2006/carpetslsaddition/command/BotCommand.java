@@ -8,7 +8,8 @@ import carpet.patches.FakeClientConnection;
 import carpet.utils.Messenger;
 import com.github.zly2006.carpetslsaddition.SLSCarpetSettings;
 import com.github.zly2006.carpetslsaddition.ServerMain;
-import com.github.zly2006.carpetslsaddition.util.access.PlayerAccess;
+import com.github.zly2006.carpetslsaddition.util.access.PlayerAccessor;
+import com.github.zly2006.carpetslsaddition.util.access.SLSBotAccessor;
 import com.mojang.authlib.GameProfile;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
@@ -81,6 +82,7 @@ public class BotCommand {
                                 .then(argument("slot", IntegerArgumentType.integer(1, 9))
                                         .executes(c -> manipulate(c, ap -> ap.setSlot(IntegerArgumentType.getInteger(c, "slot"))))))
                         .then(literal("kill").executes(BotCommand::kill))
+                        .then(literal("respawn")).executes(BotCommand::respawn)
                         .then(literal("mount").executes(manipulation(ap -> ap.mount(true)))
                                 .then(literal("anything").executes(manipulation(ap -> ap.mount(false)))))
                         .then(literal("dismount").executes(manipulation(EntityPlayerActionPack::dismount)))
@@ -244,6 +246,30 @@ public class BotCommand {
         return 1;
     }
 
+    private static int respawn(CommandContext<ServerCommandSource> context) {
+        var player = getPlayer(context);
+        if (((SLSBotAccessor)player).carpet_SLS_Addition$isBot()) {
+            ((SLSBotAccessor)player).carpet_SLS_Addition$setSpawnTime(System.currentTimeMillis());
+            context.getSource().sendMessage(
+                    Text.translatable("carpet.slsa.bot.respawned", player.getNameForScoreboard())
+                            .setStyle(
+                                    Style.EMPTY.withColor(Formatting.GREEN)
+                            )
+            );
+
+            return Command.SINGLE_SUCCESS;
+        }
+
+        context.getSource().sendMessage(
+                Text.translatable("carpet.slsa.bot.not_a_bot", player.getNameForScoreboard())
+                        .setStyle(
+                                Style.EMPTY.withColor(Formatting.RED)
+                        )
+        );
+
+        return 0;
+    }
+
     @FunctionalInterface
     interface SupplierWithCSE<T>
     {
@@ -302,7 +328,7 @@ public class BotCommand {
             return 0;
         }
 
-        ((PlayerAccess) bot).carpet_SLS_Addition$setDisplayName(Text.empty().append(Text.literal("[%s] ".formatted(source.getName())).setStyle(Style.EMPTY.withColor(Formatting.AQUA))).append(Text.literal(playerName).setStyle(Style.EMPTY)));
+        ((PlayerAccessor) bot).carpet_SLS_Addition$setDisplayName(Text.empty().append(Text.literal("[%s] ".formatted(source.getName())).setStyle(Style.EMPTY.withColor(Formatting.AQUA))).append(Text.literal(playerName).setStyle(Style.EMPTY)));
 
         ServerMain.server.getPlayerManager().broadcast(Text.empty()
                 .append(Text.literal("假人").setStyle(Style.EMPTY.withColor(Formatting.GREEN)))
@@ -367,6 +393,9 @@ public class BotCommand {
 
             bot.getDataTracker().set(PlayerEntity.PLAYER_MODEL_PARTS, (byte) 0x7f); // show all model layers (incl. capes)
             bot.getAbilities().flying = false;
+
+            ((SLSBotAccessor)bot).carpet_SLS_Addition$setBot(true);
+            ((SLSBotAccessor)bot).carpet_SLS_Addition$setSpawnTime(System.currentTimeMillis());
 
             return bot;
         }

@@ -23,6 +23,8 @@
   "carpet.rule.fakePlayersNotOccupiedSleepQuota.name": "假人不占用睡眠名额",
   "carpet.rule.endermanCanPickUpMushroom.name": "末影人可拿起蘑菇",
   "carpet.rule.printStackTraceOnVillagerSpawn.name": "打印村民生成报告",
+  "carpet.rule.botMaxOnlineTime.name": "Bot最大存活时间",
+  "carpet.rule.spectatorCannotUseLeash.name": "观察者模式禁用拴绳",
 
   "carpet.rule.obtainableReinforcedDeepSlate.desc": "当铁砧在64个深板岩的掉落物上时，可以获得强化深板岩",
   "carpet.rule.skipTicksForJoblessVillager.desc": "对于无业/傻子村民，执行设定数量的tick运算后，跳过1tick的运算",
@@ -43,6 +45,9 @@
   "carpet.rule.fakePlayersNotOccupiedSleepQuota.desc": "让假人不再占用睡眠名额，这样即使假人不睡觉也能跳过夜晚",
   "carpet.rule.endermanCanPickUpMushroom.desc": "如果该选项打开，则末影人可以捡起地上的蘑菇",
   "carpet.rule.printStackTraceOnVillagerSpawn.desc": "当有村民生成时，将会生成一份包含调用栈的报告，显示在控制端中",
+  "carpet.rule.elytraCraftable.desc": "使鞘翅在 1.20.6+ 可合成 (合成时不会消失)",
+  "carpet.rule.botMaxOnlineTime.desc": "设置由Carpet SLS Addition生成的Bot的最大存活时间",
+  "carpet.rule.spectatorCannotUseLeash.desc": "若启用，则观察者模式的玩家不再能使用拴绳，已经拴住动物的拴绳也会自动失效",
 
   "carpet.rule.skipTicksForJoblessVillager.extra.0": "设置为0则保持原版行为",
   "carpet.rule.skipTicksForJoblessVillager.extra.1": "设置为大于0的数，将在设置的基础上将该值+1",
@@ -51,5 +56,9 @@
   "carpet.rule.maxUpdateQueueSize.extra.1": "否则，在单次更新数量超过设定最大容量后，服务器将抛出OutOfMemoryError，以达到快速更新抑制的效果",
   "carpet.rule.emptyShulkerBoxStack.extra.0": "空潜影盒可以在玩家的背包进行自动堆叠，同时玩家可以手动堆叠空潜影盒",
   "carpet.rule.emptyShulkerBoxStack.extra.1": "但是空潜影盒无法在容器中自动堆叠，比如箱子，漏斗",
-  "carpet.rule.elytraCraftable.desc": "使鞘翅在 1.20.6+ 可合成 (合成时不会消失)"
+  "carpet.rule.botMaxOnlineTime.extra.0": "单位为秒，设置为-1则不启用限制",
+
+  "carpet.slsa.bot.bot_timeout": "假人%s在线时间已超出服务器设定的最大在线时长%s，已被自动踢出",
+  "carpet.slsa.bot.respawned": "假人%s的在线时长已重置！",
+  "carpet.slsa.bot.not_a_bot": "假人%s不是由Carpet SLS Addition生成的，所以你不能重置它的在线时间！"
 }
