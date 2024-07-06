@@ -26,7 +26,7 @@
   "carpet.rule.botMaxOnlineTime.name": "Bot最大存活时间",
   "carpet.rule.spectatorCannotUseLeash.name": "观察者模式禁用拴绳",
 
-  "carpet.rule.obtainableReinforcedDeepSlate.desc": "当铁砧在64个深板岩的掉落物上时，可以获得强化深板岩",
+  "carpet.rule.obtainableReinforcedDeepSlate.desc": "当铁砧砸在9*64个深板岩的掉落物上时，可以获得强化深板岩",
   "carpet.rule.skipTicksForJoblessVillager.desc": "对于无业/傻子村民，执行设定数量的tick运算后，跳过1tick的运算",
   "carpet.rule.creativeNoInfinitePickup.desc": "创造模式下，玩家不能无限制地拾取物品",
   "carpet.rule.noBatSpawning.desc": "禁止任何区域蝙蝠生成",
