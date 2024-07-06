@@ -1,6 +1,7 @@
 package com.github.zly2006.carpetslsaddition.mixin.carpet;
 
 import carpet.patches.EntityPlayerMPFake;
+import carpet.utils.Translations;
 import com.github.zly2006.carpetslsaddition.SLSCarpetSettings;
 import com.github.zly2006.carpetslsaddition.ServerMain;
 import com.github.zly2006.carpetslsaddition.util.access.SLSBotAccessor;
@@ -64,7 +65,7 @@ public abstract class MixinEntityPlayerMPFake extends ServerPlayerEntity impleme
 
         if (liveTime > SLSCarpetSettings.botMaxOnlineTime * 1000) {
             ServerMain.server.getPlayerManager().broadcast(
-                    Text.translatable("carpet.slsa.bot.bot_timeout", this.getNameForScoreboard(), getFormattedTime(SLSCarpetSettings.botMaxOnlineTime))
+                    Text.literal(Translations.tr("carpet.slsa.bot.bot_timeout").formatted(this.getNameForScoreboard(), getFormattedTime(SLSCarpetSettings.botMaxOnlineTime)))
                             .setStyle(
                                     Style.EMPTY.withColor(Formatting.RED)
                             ),

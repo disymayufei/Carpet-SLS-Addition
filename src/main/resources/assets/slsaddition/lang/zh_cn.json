@@ -60,5 +60,7 @@
 
   "carpet.slsa.bot.bot_timeout": "假人%s在线时间已超出服务器设定的最大在线时长%s，已被自动踢出",
   "carpet.slsa.bot.respawned": "假人%s的在线时长已重置！",
-  "carpet.slsa.bot.not_a_bot": "假人%s不是由Carpet SLS Addition生成的，所以你不能重置它的在线时间！"
+  "carpet.slsa.bot.not_a_bot": "假人%s不是由Carpet SLS Addition生成的，所以你不能重置它的在线时间！",
+
+  "carpet.slsa.block.deep_slate_core": "深板岩核心"
 }

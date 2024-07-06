@@ -2,6 +2,7 @@ package com.github.zly2006.carpetslsaddition;
 
 import carpet.CarpetExtension;
 import carpet.CarpetServer;
+import com.github.zly2006.carpetslsaddition.block.entity.SLSDeepSlateBlockEntity;
 import com.github.zly2006.carpetslsaddition.command.BotCommand;
 import com.github.zly2006.carpetslsaddition.command.HatCommand;
 import com.github.zly2006.carpetslsaddition.command.SitCommand;
@@ -14,6 +15,8 @@ import com.mojang.brigadier.CommandDispatcher;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.Version;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.ServerCommandSource;
@@ -42,6 +45,7 @@ public class ServerMain implements ModInitializer, CarpetExtension {
     public void onInitialize() {
         INSTANCE = this;
         CarpetServer.manageExtension(this);
+        registerBlockEntities();
     }
 
     @Override
@@ -85,5 +89,9 @@ public class ServerMain implements ModInitializer, CarpetExtension {
         HatCommand.register(dispatcher);
         SitCommand.register(dispatcher);
         BotCommand.register(dispatcher);
+    }
+
+    public void registerBlockEntities() {
+        SLSDeepSlateBlockEntity.BLOCK_ENTITY_TYPE = SLSDeepSlateBlockEntity.createType(BlockEntityType.Builder.create(SLSDeepSlateBlockEntity::new, Blocks.DEEPSLATE));
     }
 }
