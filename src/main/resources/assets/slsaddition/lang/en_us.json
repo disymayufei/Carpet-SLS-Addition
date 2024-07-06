@@ -60,5 +60,7 @@
 
   "carpet.slsa.bot.bot_timeout": "The bot %s has exceeded the maximum online time of %s, and has been disconnected now.",
   "carpet.slsa.bot.respawned": "The bot %s's online time has been reset.",
-  "carpet.slsa.bot.not_a_bot": "The player %s is not created by carpet sls addition, so you can't reset the online time."
+  "carpet.slsa.bot.not_a_bot": "The player %s is not created by carpet sls addition, so you can't reset the online time.",
+
+  "carpet.slsa.block.deep_slate_core": "Deepslate Core"
 }
