@@ -26,7 +26,6 @@
     "entity.MixinPlayerEntity",
     "entity.MixinServerPlayerEntity",
     "entity.MixinVillagerEntity",
-    "item.MixinItem",
     "player.MixinPlayerInventory",
     "screen.MixinAnvilScreenHandler",
     "server.MixinMinecraftServer",
