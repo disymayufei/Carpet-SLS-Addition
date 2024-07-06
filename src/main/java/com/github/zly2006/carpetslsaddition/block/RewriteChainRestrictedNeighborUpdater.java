@@ -1,8 +1,6 @@
 package com.github.zly2006.carpetslsaddition.block;
 
 import com.github.zly2006.carpetslsaddition.SLSCarpetSettings;
-import com.mojang.logging.LogUtils;
-import io.netty.util.internal.logging.Slf4JLoggerFactory;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;

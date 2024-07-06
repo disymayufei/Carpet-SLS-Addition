@@ -1,7 +1,10 @@
 package com.github.zly2006.carpetslsaddition.mixin.elytra;
 
 import com.github.zly2006.carpetslsaddition.SLSCarpetSettings;
-import net.minecraft.item.*;
+import net.minecraft.item.ElytraItem;
+import net.minecraft.item.Equipment;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 
 @Mixin(ElytraItem.class)

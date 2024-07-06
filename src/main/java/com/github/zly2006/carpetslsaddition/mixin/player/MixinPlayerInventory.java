@@ -1,7 +1,6 @@
 package com.github.zly2006.carpetslsaddition.mixin.player;
 
 import com.github.zly2006.carpetslsaddition.SLSCarpetSettings;
-import net.minecraft.entity.player.PlayerAbilities;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
