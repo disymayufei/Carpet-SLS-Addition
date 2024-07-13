@@ -5,11 +5,9 @@ import carpet.CarpetServer;
 import com.github.zly2006.carpetslsaddition.command.BotCommand;
 import com.github.zly2006.carpetslsaddition.command.HatCommand;
 import com.github.zly2006.carpetslsaddition.command.SitCommand;
-import com.github.zly2006.carpetslsaddition.util.access.SettingsManagerAccessor;
 import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
 import com.mojang.brigadier.CommandDispatcher;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
@@ -22,7 +20,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
+import java.io.InputStreamReader;
 import java.util.Map;
 
 public class ServerMain implements ModInitializer, CarpetExtension {
@@ -45,39 +43,34 @@ public class ServerMain implements ModInitializer, CarpetExtension {
     }
 
     @Override
+    public void onGameStarted() {
+        CarpetServer.settingsManager.parseSettingsClass(SLSCarpetSettings.class);
+    }
+
+    @Override
     public void onServerLoaded(MinecraftServer server) {
         ServerMain.server = server;
-        CarpetServer.settingsManager.parseSettingsClass(SLSCarpetSettings.class);
-        ((SettingsManagerAccessor) CarpetServer.settingsManager).carpet_SLS_Addition$loadSettings();
     }
 
     @Override
     public Map<String, String> canHasTranslations(String lang) {
         Map<String, String> translation = Maps.newHashMap();
 
-        String jsonFile;
         try {
             try (InputStream stream = ServerMain.class.getResourceAsStream("/assets/slsaddition/lang/%s.json".formatted(lang))) {
                 assert stream != null;
-                jsonFile = new String(stream.readAllBytes(), StandardCharsets.UTF_8);
+                return GSON.fromJson(new InputStreamReader(stream), Map.class);
             }
         } catch (IOException | NullPointerException ignored) {
             try {
-                try (InputStream stream = ServerMain.class.getResourceAsStream("/assets/slsaddition/lang/%s.json".formatted("en_us"))) {
+                try (InputStream stream = ServerMain.class.getResourceAsStream("/assets/slsaddition/lang/en_us.json")) {
                     assert stream != null;
-                    jsonFile = new String(stream.readAllBytes(), StandardCharsets.UTF_8);
+                    return GSON.fromJson(new InputStreamReader(stream), Map.class);
                 }
             } catch (IOException | NullPointerException e) {
                 return translation;
             }
         }
-        GSON.fromJson(jsonFile, JsonObject.class).entrySet().stream()
-                .filter(entry -> entry.getValue().isJsonPrimitive())
-                .map(entry -> Map.entry(entry.getKey(), entry.getValue().getAsString()))
-                .forEach(entry -> {
-                    translation.put(entry.getKey(), entry.getValue());
-                });
-        return translation;
     }
 
     @Override

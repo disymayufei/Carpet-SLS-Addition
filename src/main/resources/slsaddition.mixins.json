@@ -3,20 +3,15 @@
   "minVersion": "0.8",
   "package": "com.github.zly2006.carpetslsaddition.mixin",
   "compatibilityLevel": "JAVA_17",
-  "server": [
-    "server.MixinMinecraftDedicatedServer"
-  ],
   "client": [
   ],
   "mixins": [
     "block.BlockPatternTestTransformInvoker",
     "block.MixinRedstoneWireBlock",
     "carpet.MixinEntityPlayerMPFake",
-    "carpet.MixinSettingsManager",
     "datapack.MixinVanillaResourcePackProvider",
     "elytra.MixinElytraItem",
     "elytra.MixinItem",
-    "elytra.MixinRecipe",
     "entity.MixinArmorStandEntity",
     "entity.MixinBoatEntity",
     "entity.MixinEnderDragonFight",
@@ -25,18 +20,15 @@
     "entity.MixinMobEntity",
     "entity.MixinPlayerEntity",
     "entity.MixinServerPlayerEntity",
-    "entity.MixinVillagerEntity",
     "player.MixinPlayerInventory",
     "screen.MixinAnvilScreenHandler",
-    "server.MixinMinecraftServer",
     "shulker.MixinItemStack",
     "shulker.MixinPlayerInventory",
     "shulker.MixinScreenHandler",
     "shulker.MixinServerPlayNetworkHandler",
     "shulker.MixinSlot",
     "world.MixinSleepManager",
-    "world.MixinSpawnHelper",
-    "world.MixinWorld"
+    "world.MixinSpawnHelper"
   ],
   "injectors": {
     "defaultRequire": 1

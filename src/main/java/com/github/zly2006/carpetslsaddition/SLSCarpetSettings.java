@@ -13,10 +13,6 @@ public class SLSCarpetSettings {
     public static boolean obtainableReinforcedDeepSlate = false;
 
     /** Carpet SLS Addition original **/
-    @Rule(categories = {SLSA, RuleCategory.OPTIMIZATION})
-    public static int skipTicksForJoblessVillager = 0;
-
-    /** Carpet SLS Addition original **/
     @Rule(categories = {SLSA, RuleCategory.CREATIVE})
     public static boolean creativeNoInfinitePickup = false;
 
@@ -48,10 +44,6 @@ public class SLSCarpetSettings {
     @Rule(categories = {SLSA, RuleCategory.FEATURE})
     public static boolean fakePlayersNotOccupiedSleepQuota = false;
 
-    /** Carpet SLS Addition original **/
-    @Rule(categories = {SLSA, RuleCategory.CREATIVE})
-    public static int maxUpdateQueueSize = -1;
-
     /** From Plusls Carpet Addition **/
     @Rule(categories = {SLSA, RuleCategory.FEATURE, NEED_CLIENT})
     public static boolean emptyShulkerBoxStack = false;
@@ -71,10 +63,6 @@ public class SLSCarpetSettings {
     /** From Carpet AMS Addition **/
     @Rule(categories = {SLSA, FROM_AMS, RuleCategory.OPTIMIZATION})
     public static boolean optimizedOnDragonRespawn = false;
-
-    /** Carpet SLS Addition original **/
-    @Rule(categories = {SLSA, RuleCategory.FEATURE})
-    public static boolean printStackTraceOnVillagerSpawn = false;
 
     /** Carpet SLS Addition original **/
     @Rule(categories = {SLSA, RuleCategory.FEATURE})
