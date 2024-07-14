@@ -71,6 +71,11 @@ Optimized the dragon respawn logic, for endstone farms. Ported from Carpet AMS A
 
 Elytra in crafting recipes won't be consumed. This allows players to craft extra elytras.
 
+This will **NOT** add a recipe for elytra, to enable the default recipe by StarLight Server, execute:
+```mcfunction
+datapack enable elytra-craftable
+```
+
 ### spectatorCannotUseLeash
 
 When player becomes spectator, the leash will be detached.

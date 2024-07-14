@@ -71,6 +71,12 @@ SLS 添加提供了一个机器人系统，具有更好的权限控制和更多�
 
 在制作配方中，鞘翅不会被消耗。这允许玩家制作额外的鞘翅。
 
+这不会为鞘翅添加配方，要启用 StarLight Server 的默认配方，请执行：
+
+```mcfunction
+datapack enable elytra-craftable
+```
+
 ### spectatorCannotUseLeash
 
 当玩家成为旁观者时，拴绳将断开。
