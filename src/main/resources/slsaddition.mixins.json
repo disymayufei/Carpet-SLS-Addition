@@ -12,6 +12,7 @@
     "datapack.MixinVanillaResourcePackProvider",
     "elytra.MixinElytraItem",
     "elytra.MixinItem",
+    "entity.MixinArmadilloEntity",
     "entity.MixinArmorStandEntity",
     "entity.MixinBoatEntity",
     "entity.MixinEnderDragonFight",

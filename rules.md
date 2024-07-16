@@ -79,3 +79,7 @@ datapack enable elytra-craftable
 ### spectatorCannotUseLeash
 
 When player becomes spectator, the leash will be detached.
+
+### armadilloImmediateDespawns
+
+Armadillos will despawn immediately if they are 128 blocks away from the player.

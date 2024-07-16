@@ -80,3 +80,7 @@ datapack enable elytra-craftable
 ### spectatorCannotUseLeash
 
 当玩家成为旁观者时，拴绳将断开。
+
+### armadilloImmediateDespawns
+
+当犰狳距离玩家超过 128 格时，它们将立即消失。
