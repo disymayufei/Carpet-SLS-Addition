@@ -58,6 +58,7 @@
   "carpet.rule.emptyShulkerBoxStack.extra.0": "Empty shulker boxes can stack in a player's inventory or hand",
   "carpet.rule.emptyShulkerBoxStack.extra.1": "Empty shulker boxes will not stack in other inventories, such as chests or hoppers",
   "carpet.rule.botMaxOnlineTime.extra.0": "The value in seconds. Set to -1 to disable this limit",
+  "carpet.rule.netherPortalSize.desc": "Max size of nether portal",
 
   "carpet.slsa.bot.bot_timeout": "The bot %s has exceeded the maximum online time of %s, and has been disconnected now.",
   "carpet.slsa.bot.respawned": "The bot %s's online time has been reset.",

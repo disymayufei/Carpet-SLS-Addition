@@ -59,4 +59,7 @@ public class SLSCarpetSettings {
 
     @Rule(categories = {SLSA, RuleCategory.FEATURE})
     public static boolean armadilloImmediateDespawns = false;
+
+    @Rule(categories = {SLSA, RuleCategory.FEATURE})
+    public static int netherPortalSize = 21;
 }

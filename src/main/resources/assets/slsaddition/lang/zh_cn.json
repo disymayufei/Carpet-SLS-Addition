@@ -58,6 +58,7 @@
   "carpet.rule.emptyShulkerBoxStack.extra.0": "空潜影盒可以在玩家的背包进行自动堆叠，同时玩家可以手动堆叠空潜影盒",
   "carpet.rule.emptyShulkerBoxStack.extra.1": "但是空潜影盒无法在容器中自动堆叠，比如箱子，漏斗",
   "carpet.rule.botMaxOnlineTime.extra.0": "单位为秒，设置为-1则不启用限制",
+  "carpet.rule.netherPortalSize.desc": "地狱传送门的最大尺寸",
 
   "carpet.slsa.bot.bot_timeout": "假人%s在线时间已超出服务器设定的最大在线时长%s，已被自动踢出",
   "carpet.slsa.bot.respawned": "假人%s的在线时长已重置！",

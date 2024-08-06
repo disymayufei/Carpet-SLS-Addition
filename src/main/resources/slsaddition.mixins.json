@@ -7,6 +7,7 @@
   ],
   "mixins": [
     "block.BlockPatternTestTransformInvoker",
+    "block.MixinNetherPortal",
     "block.MixinRedstoneWireBlock",
     "carpet.MixinEntityPlayerMPFake",
     "datapack.MixinVanillaResourcePackProvider",
