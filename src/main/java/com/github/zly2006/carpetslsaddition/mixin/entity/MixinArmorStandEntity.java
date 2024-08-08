@@ -10,12 +10,14 @@ import net.minecraft.nbt.NbtElement;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ArmorStandEntity.class)
 public abstract class MixinArmorStandEntity extends LivingEntity implements SitEntity {
+    @Unique
     private boolean sitEntity = false;  // 用于标识该盔甲架是否用于玩家乘坐
 
     protected MixinArmorStandEntity(EntityType<? extends LivingEntity> entityType, World world) {
@@ -26,12 +28,12 @@ public abstract class MixinArmorStandEntity extends LivingEntity implements SitE
     protected abstract void setMarker(boolean marker);
 
     @Override
-    public boolean isSitEntity() {
+    public boolean carpet_SLS_Addition$isSitEntity() {
         return sitEntity;
     }
 
     @Override
-    public void setSitEntity(boolean isSitEntity) {
+    public void carpet_SLS_Addition$setSitEntity(boolean isSitEntity) {
         this.sitEntity = isSitEntity;
         this.setMarker(isSitEntity);
         this.setInvisible(isSitEntity);
@@ -39,7 +41,7 @@ public abstract class MixinArmorStandEntity extends LivingEntity implements SitE
 
     @Override
     protected void removePassenger(Entity passenger) {
-        if (this.isSitEntity()) {
+        if (this.carpet_SLS_Addition$isSitEntity()) {
             this.setPosition(this.getX(), this.getY() + 0.16, this.getZ());
             this.kill();
         }

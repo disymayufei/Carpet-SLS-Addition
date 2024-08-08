@@ -4,11 +4,14 @@
   "package": "com.github.zly2006.carpetslsaddition.mixin",
   "compatibilityLevel": "JAVA_17",
   "client": [
+    "network.MixinClientConnection"
   ],
   "mixins": [
     "block.BlockPatternTestTransformInvoker",
     "block.MixinNetherPortal",
     "block.MixinRedstoneWireBlock",
+    "block.MixinSculkSensorBlock",
+    "block.entity.MixinBlockEntity",
     "carpet.MixinEntityPlayerMPFake",
     "datapack.MixinVanillaResourcePackProvider",
     "elytra.MixinElytraItem",
