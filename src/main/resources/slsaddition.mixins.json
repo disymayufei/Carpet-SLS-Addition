@@ -22,6 +22,7 @@
     "entity.MixinMobEntity",
     "entity.MixinPlayerEntity",
     "entity.MixinServerPlayerEntity",
+    "network.MixinNetworkThreadUtils",
     "player.MixinPlayerInventory",
     "screen.MixinAnvilScreenHandler",
     "shulker.MixinItemStack",
