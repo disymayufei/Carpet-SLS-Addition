@@ -10,7 +10,6 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(SleepManager.class)
 public class MixinSleepManager {
-
     @Redirect(method = "update", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/network/ServerPlayerEntity;isSpectator()Z"))
     private boolean isNormalPlayer(ServerPlayerEntity serverPlayerEntity) {
         if (SLSCarpetSettings.fakePlayersNotOccupiedSleepQuota) {
