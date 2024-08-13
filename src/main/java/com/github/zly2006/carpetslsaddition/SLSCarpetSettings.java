@@ -65,4 +65,7 @@ public class SLSCarpetSettings {
 
     @Rule(categories = {SLSA, RuleCategory.CREATIVE})
     public static boolean restoreOldSculkSensor = false;
+
+    @Rule(categories = {SLSA, RuleCategory.CREATIVE})
+    public static boolean rebornOOMSuppressor = false;
 }
