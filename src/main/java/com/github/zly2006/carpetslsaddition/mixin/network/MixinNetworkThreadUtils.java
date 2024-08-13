@@ -18,10 +18,9 @@ public class MixinNetworkThreadUtils {
     )
     private static Throwable onCheckCauseType(CrashException instance) {
         if (SLSCarpetSettings.rebornOOMSuppressor && instance.getCause() instanceof OutOfMemoryError) {
-            return new OutOfMemoryErrorHacker();
+            return new RuntimeException();
         }
+
         return instance.getCause();
     }
 }
-
-class OutOfMemoryErrorHacker extends RuntimeException {}
