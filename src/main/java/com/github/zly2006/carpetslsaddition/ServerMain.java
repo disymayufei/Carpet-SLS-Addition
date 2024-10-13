@@ -21,6 +21,7 @@ import org.apache.logging.log4j.Logger;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 public class ServerMain implements ModInitializer, CarpetExtension {
@@ -52,6 +53,7 @@ public class ServerMain implements ModInitializer, CarpetExtension {
         ServerMain.server = server;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public Map<String, String> canHasTranslations(String lang) {
         Map<String, String> translation = Maps.newHashMap();
@@ -59,13 +61,13 @@ public class ServerMain implements ModInitializer, CarpetExtension {
         try {
             try (InputStream stream = ServerMain.class.getResourceAsStream("/assets/slsaddition/lang/%s.json".formatted(lang))) {
                 assert stream != null;
-                return GSON.fromJson(new InputStreamReader(stream), Map.class);
+                return GSON.fromJson(new InputStreamReader(stream, StandardCharsets.UTF_8), Map.class);
             }
         } catch (IOException | NullPointerException ignored) {
             try {
                 try (InputStream stream = ServerMain.class.getResourceAsStream("/assets/slsaddition/lang/en_us.json")) {
                     assert stream != null;
-                    return GSON.fromJson(new InputStreamReader(stream), Map.class);
+                    return GSON.fromJson(new InputStreamReader(stream, StandardCharsets.UTF_8), Map.class);
                 }
             } catch (IOException | NullPointerException e) {
                 return translation;
