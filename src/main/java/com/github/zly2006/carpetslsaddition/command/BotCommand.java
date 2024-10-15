@@ -32,6 +32,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.PlayerManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ConnectedClientData;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
@@ -56,7 +57,7 @@ import static net.minecraft.server.command.CommandManager.argument;
 import static net.minecraft.server.command.CommandManager.literal;
 
 public class BotCommand {
-    private static final List<String> bannedCommand = List.of("shadow");
+    private static final List<String> bannedCommand = List.of("shadow", "spawn");
 
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
         var playerArgumentNode = argument("player", StringArgumentType.word())
@@ -171,6 +172,13 @@ public class BotCommand {
         }
 
         ((PlayerAccessor) bot).carpet_SLS_Addition$setDisplayName(Text.empty().append(Text.literal("[%s] ".formatted(source.getName())).setStyle(Style.EMPTY.withColor(Formatting.AQUA))).append(Text.literal(playerName).setStyle(Style.EMPTY)));
+
+        // 向所有玩家发送更新后的玩家列表信息
+        PlayerListS2CPacket updatePacket = new PlayerListS2CPacket(PlayerListS2CPacket.Action.UPDATE_DISPLAY_NAME, bot);
+
+        for (ServerPlayerEntity otherPlayer : bot.server.getPlayerManager().getPlayerList()) {
+            otherPlayer.networkHandler.sendPacket(updatePacket);
+        }
 
         ServerMain.server.getPlayerManager().broadcast(Text.empty()
                 .append(Text.literal("假人").setStyle(Style.EMPTY.withColor(Formatting.GREEN)))
