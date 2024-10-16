@@ -13,12 +13,18 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.UserCache;
+import net.minecraft.util.Uuids;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.Optional;
+import java.util.UUID;
 
 @Mixin(EntityPlayerMPFake.class)
 public abstract class MixinEntityPlayerMPFake extends ServerPlayerEntity implements SLSBotAccessor {
@@ -74,6 +80,16 @@ public abstract class MixinEntityPlayerMPFake extends ServerPlayerEntity impleme
 
             this.kill();
         }
+    }
+
+    @Redirect(method = "createFake", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/UserCache;findByName(Ljava/lang/String;)Ljava/util/Optional;"))
+    private static Optional<GameProfile> onCreate(UserCache instance, String name) {
+        if (SLSCarpetSettings.offlineFakePlayers) {
+            UUID uuid = Uuids.getOfflinePlayerUuid(name);
+            return Optional.of(new GameProfile(uuid, name));
+        }
+
+        return instance.findByName(name);
     }
 
     @Unique

@@ -34,6 +34,7 @@ import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ConnectedClientData;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.text.MutableText;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
@@ -163,7 +164,8 @@ public class BotCommand {
             return 0;
         }
 
-        EntityPlayerMPFake bot = createBot(playerName, source.getServer(), pos, facing.y, facing.x, dimType);
+        var prefix = Text.empty().append(Text.literal("[%s] ".formatted(source.getName())).setStyle(Style.EMPTY.withColor(Formatting.AQUA))).append(Text.literal(playerName).setStyle(Style.EMPTY));
+        EntityPlayerMPFake bot = createBot(playerName, source.getServer(), pos, facing.y, facing.x, dimType, prefix);
 
         if (bot == null) {
             Messenger.m(source, "rb Player " + playerName + " doesn't exist and cannot spawn in online mode. " +
@@ -171,14 +173,9 @@ public class BotCommand {
             return 0;
         }
 
-        ((PlayerAccessor) bot).carpet_SLS_Addition$setDisplayName(Text.empty().append(Text.literal("[%s] ".formatted(source.getName())).setStyle(Style.EMPTY.withColor(Formatting.AQUA))).append(Text.literal(playerName).setStyle(Style.EMPTY)));
-
         // 向所有玩家发送更新后的玩家列表信息
-        PlayerListS2CPacket updatePacket = new PlayerListS2CPacket(PlayerListS2CPacket.Action.UPDATE_DISPLAY_NAME, bot);
-
-        for (ServerPlayerEntity otherPlayer : bot.server.getPlayerManager().getPlayerList()) {
-            otherPlayer.networkHandler.sendPacket(updatePacket);
-        }
+        bot.server.getPlayerManager().sendToAll(new PlayerListS2CPacket(PlayerListS2CPacket.Action.UPDATE_DISPLAY_NAME, bot));
+        bot.server.getPlayerManager().sendToAll(new PlayerListS2CPacket(PlayerListS2CPacket.Action.UPDATE_LISTED, bot));
 
         ServerMain.server.getPlayerManager().broadcast(Text.empty()
                 .append(Text.literal("假人").setStyle(Style.EMPTY.withColor(Formatting.GREEN)))
@@ -194,30 +191,34 @@ public class BotCommand {
         return 1;
     }
 
-    @SuppressWarnings("unchecked")
-    private static EntityPlayerMPFake createBot(String username, MinecraftServer server, Vec3d pos, double yaw, double pitch, RegistryKey<World> dimensionId) {
+    private static EntityPlayerMPFake createBot(String username, MinecraftServer server, Vec3d pos, double yaw, double pitch, RegistryKey<World> dimensionId, MutableText prefix) {
         ServerWorld worldIn = server.getWorld(dimensionId);
         UserCache.setUseRemote(false);
         GameProfile gameprofile;
-        try {
-            gameprofile = server.getUserCache().findByName(username).orElse(null); //findByName  .orElse(null)
+
+        if (SLSCarpetSettings.offlineFakePlayers) {
+            gameprofile = new GameProfile(Uuids.getOfflinePlayerUuid(username), username);
         }
-        finally {
-            UserCache.setUseRemote(server.isDedicated() && server.isOnlineMode());
-        }
-        if (gameprofile == null) {
-            if (!CarpetSettings.allowSpawningOfflinePlayers) {
-                return null;
+        else {
+            try {
+                gameprofile = server.getUserCache().findByName(username).orElse(null);
             }
-            else {
-                gameprofile = new GameProfile(Uuids.getOfflinePlayerUuid(username), username);
+            finally {
+                UserCache.setUseRemote(server.isDedicated() && server.isOnlineMode());
+            }
+            if (gameprofile == null) {
+                if (!CarpetSettings.allowSpawningOfflinePlayers) {
+                    return null;
+                }
+                else {
+                    gameprofile = new GameProfile(Uuids.getOfflinePlayerUuid(username), username);
+                }
             }
         }
 
         // 孩子不懂，用反射写着玩的，报错了记得随Carpet一起升级一下
-
         try {
-            Class<EntityPlayerMPFake> fakePlayerClass = (Class<EntityPlayerMPFake>)Class.forName("carpet.patches.EntityPlayerMPFake");
+            Class<EntityPlayerMPFake> fakePlayerClass = EntityPlayerMPFake.class;
             Constructor<EntityPlayerMPFake> constructor = fakePlayerClass.getDeclaredConstructor(
                     MinecraftServer.class,
                     ServerWorld.class,
@@ -227,6 +228,8 @@ public class BotCommand {
             );
             constructor.setAccessible(true);
             EntityPlayerMPFake bot = constructor.newInstance(server, worldIn, gameprofile, SyncedClientOptions.createDefault(), false);
+
+            ((PlayerAccessor) bot).carpet_SLS_Addition$setDisplayName(prefix);
 
             bot.fixStartingPosition = () -> bot.refreshPositionAndAngles(pos.x, pos.y, pos.z, (float) yaw, (float) pitch);
             server.getPlayerManager().onPlayerConnect(new FakeClientConnection(NetworkSide.SERVERBOUND), bot, new ConnectedClientData(gameprofile, 0, bot.getClientOptions(), false));
@@ -248,7 +251,7 @@ public class BotCommand {
 
             return bot;
         }
-        catch (ClassNotFoundException | NoSuchMethodException  | InstantiationException | IllegalAccessException | InvocationTargetException e) {
+        catch (NoSuchMethodException  | InstantiationException | IllegalAccessException | InvocationTargetException e) {
             throw new RuntimeException("An error has occurred when trying spawn a new bot with reflection", e);
         }
     }

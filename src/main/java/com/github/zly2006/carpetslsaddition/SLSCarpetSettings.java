@@ -65,4 +65,7 @@ public class SLSCarpetSettings {
 
     @Rule(categories = {SLSA, RuleCategory.CREATIVE})
     public static boolean rebornOOMSuppressor = false;
+
+    @Rule(categories = {SLSA, RuleCategory.FEATURE})
+    public static boolean offlineFakePlayers = false;
 }
